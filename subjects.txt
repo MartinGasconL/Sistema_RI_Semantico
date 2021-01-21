@@ -1,0 +1,58 @@
+    <dc:subject>sistema mediático español</dc:subject>
+    <dc:subject>sistema político español</dc:subject>
+    <dc:subject>paralelismo político</dc:subject>
+    <dc:subject>teoría del framing</dc:subject>
+    <dc:subject>psoe</dc:subject>
+    <dc:subject>iu</dc:subject>
+    <dc:subject>el país</dc:subject>
+    <dc:subject>diario 16</dc:subject>
+    <dc:subject>el periódico</dc:subject>
+    <dc:subject>público</dc:subject>
+    <dc:subject>Graduado en Periodismo</dc:subject>
+    <dc:subject>historia del arte</dc:subject>
+    <dc:subject>pintura</dc:subject>
+    <dc:subject>política cultural</dc:subject>
+    <dc:subject>aragón</dc:subject>
+    <dc:subject>historia del arte</dc:subject>
+    <dc:subject>arte de los siglos xix y xx</dc:subject>
+    <dc:subject>música</dc:subject>
+    <dc:subject>musicología</dc:subject>
+    <dc:subject>siglos XVI-XVII</dc:subject>
+    <dc:subject>Comunidad de Albarracín</dc:subject>
+    <dc:subject>hacienda</dc:subject>
+    <dc:subject>poder</dc:subject>
+    <dc:subject>Elites</dc:subject>
+    <dc:subject>historia contemporánea de españa</dc:subject>
+    <dc:subject>cinematografía</dc:subject>
+    <dc:subject>relaciones culturales</dc:subject>
+    <dc:subject>restauración</dc:subject>
+    <dc:subject>caciquismo</dc:subject>
+    <dc:subject>elecciones</dc:subject>
+    <dc:subject>clientelismo</dc:subject>
+    <dc:subject>huesca</dc:subject>
+    <dc:subject>partidos políticos</dc:subject>
+    <dc:subject>políticos</dc:subject>
+    <dc:subject>Máster Universitario en Historia Contemporánea</dc:subject>
+    <dc:subject>Graduado en Historia</dc:subject>
+    <dc:subject>Graduado en Historia</dc:subject>
+    <dc:subject>dictadura de primo de rivera</dc:subject>
+    <dc:subject>síntesis</dc:subject>
+    <dc:subject>golpe de estado</dc:subject>
+    <dc:subject>pronunciamiento militar</dc:subject>
+    <dc:subject>directorio civil</dc:subject>
+    <dc:subject>directorio militar</dc:subject>
+    <dc:subject>años 20</dc:subject>
+    <dc:subject>españa</dc:subject>
+    <dc:subject>cronología</dc:subject>
+    <dc:subject>historia contemporánea</dc:subject>
+    <dc:subject>historia de españa</dc:subject>
+    <dc:subject>Graduado en Historia</dc:subject>
+    <dc:subject>educación</dc:subject>
+    <dc:subject>ideología </dc:subject>
+    <dc:subject>libros de texto</dc:subject>
+    <dc:subject>franquismo </dc:subject>
+    <dc:subject>españa</dc:subject>
+    <dc:subject>Graduado en Historia</dc:subject>
+    <dc:subject>Graduado en Historia</dc:subject>
+    <dc:subject>Graduado en Historia</dc:subject>
+    <dc:subject>Máster Universitario en Relaciones de Género</dc:subject>

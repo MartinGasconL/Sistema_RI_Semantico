@@ -1,0 +1,2 @@
+com/grupo202/searcher/SemanticSearcher.java
+ com.grupo202.searcher.SemanticSearcher

@@ -1,0 +1,26 @@
+InferenciaOWL2tesauro.java
+ InferenciaOWL2tesauro
+D_AccesoRDF.java
+ D_AccesoRDF
+InferenciaOWL2pizza.java
+ InferenciaOWL2pizza
+RankingDeResultadosMem.java
+ RankingDeResultadosMem
+F_InferenciaRDFS.java
+ F_InferenciaRDFS
+C_PersistenciaRDF_TDB2.java
+ C_PersistenciaRDF_TDB2
+RankingDeResultadosTDB2.java
+ RankingDeResultadosTDB2
+B_PersistenciaRDF_Fichero.java
+ B_PersistenciaRDF_Fichero
+E_AccesoSPARQL.java
+ E_AccesoSPARQL
+A_CreacionRDF.java
+ A_CreacionRDF
+G_InferenciaOWL2.java
+ G_InferenciaOWL2
+com/grupo202/generator/Document.java
+ com.grupo202.generator.Document
+com/grupo202/generator/SemanticGenerator.java
+ com.grupo202.generator.SemanticGenerator

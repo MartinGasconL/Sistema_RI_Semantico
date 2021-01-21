@@ -1,0 +1,164 @@
+<rdf:RDF
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+
+  <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#computacion">
+    <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#ingeniería-informática"/>
+    <skos:prefLabel>computación</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#deep-learning">
+    <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#computacion"/>
+    <skos:prefLabel>deep learning</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#computer-science">
+    <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#computacion"/>
+    <skos:prefLabel>computer science</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#informática">
+    <skos:prefLabel>informática</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#ingeniería-informática">
+    <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#informática"/>
+    <skos:prefLabel>ingeniería informática</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#artificial-intelligence">
+    <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#computacion"/>
+    <skos:prefLabel>artificial intelligence</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#inteligencia-artificial">
+    <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#computacion"/>
+    <skos:prefLabel>inteligencia artificial</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#red-neuronal">
+    <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#computacion"/>
+    <skos:prefLabel>red neuronal</skos:prefLabel>
+  </skos:Concept>
+
+  <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#enfermedad-neurodegenerativa">
+      <skos:prefLabel>enfermedad neurodegenerativa</skos:prefLabel>
+   </skos:Concept>
+   <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#biomedicina">
+         <skos:prefLabel>biomedicina</skos:prefLabel>
+    </skos:Concept>
+  <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#ingeniería-biómedica">
+      <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#biomedicina"/>
+      <skos:prefLabel>ingeniería biomédica</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#biomedical-engineering">
+      <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#biomedicina"/>
+      <skos:prefLabel>biomedical engineering</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#parkinson">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#enfermedad-neurodegenerativa"/>
+        <skos:prefLabel>parkinson</skos:prefLabel>
+     </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#alzheimer">
+             <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#enfermedad-neurodegenerativa"/>
+             <skos:prefLabel>alzheimer</skos:prefLabel>
+    </skos:Concept>
+
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#politca">
+          <skos:prefLabel>política</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#españa">
+          <skos:prefLabel>españa</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#aragón">
+            <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#españa"/>
+            <skos:prefLabel>aragón</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#madrid">
+            <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#españa"/>
+            <skos:prefLabel>madrid</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#cataluña">
+            <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#españa"/>
+            <skos:prefLabel>cataluña</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#huesca">
+            <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#aragón"/>
+            <skos:prefLabel>huesca</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#represion-politica">
+            <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#politca"/>
+            <skos:prefLabel>represion política</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#caciquismo">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#represionpolitica"/>
+        <skos:prefLabel>caciquismo</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#dictadura">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#represion-politica"/>
+        <skos:prefLabel>dictadura</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#francisco-franco">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#dictadura"/>
+        <skos:prefLabel>francisco franco</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#primo-de-rivera">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#dictadura"/>
+        <skos:prefLabel>primo de rivera</skos:prefLabel>
+     </skos:Concept>
+     <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#franquismo">
+         <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#dictadura"/>
+         <skos:prefLabel>franquismo</skos:prefLabel>
+     </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#cacique">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#caciquismo"/>
+        <skos:prefLabel>cacique</skos:prefLabel>
+    </skos:Concept>
+
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#partido-politico">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#politca"/>
+        <skos:prefLabel>partido politico</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#psoe">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#partido-politico"/>
+        <skos:prefLabel>psoe</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#partido-socialista-obrero-español">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#partido-politico"/>
+        <skos:prefLabel>partido socialista obrero español</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#pp">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#partido-politico"/>
+        <skos:prefLabel>pp</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#partido-popular">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#partido-politico"/>
+        <skos:prefLabel>partido popular</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#podemos">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#partido-politico"/>
+        <skos:prefLabel>podemos</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#ciudadanos">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#partido-politico"/>
+        <skos:prefLabel>ciudadanos</skos:prefLabel>
+    </skos:Concept>
+
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#bioinformática">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#informática"/>
+        <skos:prefLabel>bioinformática</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#biologia-computacional">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#bioinformática"/>
+        <skos:prefLabel>biologia computacional</skos:prefLabel>
+    </skos:Concept>
+     <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#computational-biology">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#bioinformática"/>
+        <skos:prefLabel>computational biology</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#biología-evolutiva">
+        <skos:prefLabel>biología evolutiva</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#filogenética">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#biología-evolutiva"/>
+        <skos:prefLabel>filogenética</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#phylogenetics">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#biología-evolutiva"/>
+        <skos:prefLabel>phylogenetics</skos:prefLabel>
+    </skos:Concept>
+
+</rdf:RDF>
