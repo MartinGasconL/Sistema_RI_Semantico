@@ -12,7 +12,7 @@ import java.io.*;
 
 public class SemanticGenerator {
 
-    private final String NS = "http://www.grupo202.com/model/";
+    private final String NS = "http://www.grupo202.com/model#";
 
     private SemanticGenerator(@org.jetbrains.annotations.NotNull String[] args) throws ParserConfigurationException, IOException, SAXException {
         String rdf = null;

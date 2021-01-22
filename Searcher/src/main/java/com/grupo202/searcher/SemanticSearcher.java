@@ -8,29 +8,16 @@ import org.apache.jena.query.text.TextIndexConfig;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.tdb2.TDB2Factory;
-import org.apache.jena.util.FileManager;
-import org.apache.jena.vocabulary.DCTerms;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
+
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
-import org.apache.lucene.store.RAMDirectory;
+
 
 import java.io.*;
 import java.nio.file.Paths;
 
 public class SemanticSearcher {
-
-    private final float DESCRIPTION_INFONEED_WEIGHT = 5;
-    private final float TITLE_INFONEED_WEIGHT =  4;
-    private final float SUBJECT_INFONEED_WEIGHT = 3;
-    private final float TYPE_WEIGHT = 10;
-    private final float LOCATION_WEIGHT = 5;
-    private final float NAME_CREATOR_WEIGHT = 10;
-    private final float NAME_CONTRIBUTOR_WEIGHT = 10;
-    private final float DESCRIPTION_NAME_WEIGHT = 10;
-    private final float BEGIN_DATE_WEIGHT = 10;
-    private final float END_DATE_WEIGHT = 10;
 
 
     SemanticSearcher(String[] args) throws IOException {
@@ -67,33 +54,73 @@ public class SemanticSearcher {
         ds.commit();
         ds.end();
 
+        String q = " PREFIX skos:<http://www.w3.org/2004/02/skos/core#>" +
+                    "PREFIX g: <http://www.grupo202.com/model#> "
+                  + "PREFIX text: <http://jena.apache.org/text#> "
+                  + "SELECT DISTINCT ?x WHERE { "
+                      + "?x g:tema ?y ."
+                      +  " {"
+                           // +  "{(?y ?score0) text:query (skos:prefLabel 'caciquismo' )} "
+                       //     +  "  {(?y ?score1) text:query (skos:prefLabel 'represion política' )} "
+                        //    +  " UNION {(?y ?score2) text:query (skos:prefLabel 'dictadura' )} "
+                         //   +  "  UNION{(?y ?score3) text:query (skos:prefLabel 'españa' )} "
+                      +  " } "
+                      + "UNION { "
+                         // + "{(?x ?score4) text:query (g:titulo 'siglo XX')} "
+                          + "{(?x ?score5) text:query (g:titulo 'dictadura represión política')} "
+                          + "UNION {(?x ?score6) text:query (g:descripcion 'caciquismo dictadura represión política huesca españa siglo XX')} "
+                         // + "UNION {(?x ?score7) text:query (g:descripcion 'huesca españa')} "
+                        //  + "UNION {(?x ?score8) text:query (g:tema 'huesca')} "
+                      + "}"
+                      + "bind (coalesce(?score6,10) +coalesce(?score5,10) +  " +
+                        "coalesce(?score2,10)+ coalesce(?score1,5) " +
+                   //     "coalesce(?score4,6)+ coalesce(?score5,15) +" +
+                     //   "coalesce(?score6,10)+ coalesce(?score7,6) + " +
+                    //    "coalesce(?score8,10)" +
+                "as ?scoretot) "
+                  + "} ORDER BY DESC(?scoretot)";
 
-        String q = "PREFIX skos:<http://www.w3.org/2004/02/skos/core#>"
-                + "prefix g: <http://www.grupo202.com/model/> "
-                + "prefix text: <http://jena.apache.org/text#> "
-                + "Select distinct ?x where { "
-                + "{(?x ?score1) text:query (g:descripcion 'caciquismo dictadura represión política' )} "
-                + "UNION {(?x ?score2) text:query (g:titulo 'caciquismo dictadura represión política Huesca España siglo XX' )} "
-                + "optional {(?x ?score3) text:query (g:Tema 'huesca')}  "
-                + "optional {(?x ?score4) text:query (skos:prefLabel 'dictadura')}  "
-                + "optional {(?x ?score5) text:query (skos:prefLabel 'represión política')}  "
-            //    + "optional {(?x ?score6) text:query (g:descripcion 'Huesca España siglo XX' )} "
-                + "optional {(?x ?score7) text:query (skos:prefLabel 'españa' )} "
-                + "optional {(?x ?score8) text:query (skos:prefLabel 'historia' )} "
-                + "bind (coalesce(?score1," + 15 + ")"
-                     + "+coalesce(?score2," + TITLE_INFONEED_WEIGHT + ") "
-                     + "+coalesce(?score3," + 4 + ")"
-                     + "+coalesce(?score4," + 6 + ")"
-                     + "+coalesce(?score5," + 6 + ")"
-                     + "+coalesce(?score6," + 5 + ")"
-                     + "+coalesce(?score7," + 5 + ")"
-                     + "+coalesce(?score8," + 3 + ")"
-                     + " as ?scoretot) "
+        q = " PREFIX skos:<http://www.w3.org/2004/02/skos/core#>" +
+                "PREFIX g: <http://www.grupo202.com/model#> "
+                + "PREFIX text: <http://jena.apache.org/text#> "
+                + "SELECT DISTINCT ?x WHERE { "
+                + "?x g:tema ?y ."
+                + "{"
+                    + "{(?x ?score0) text:query (g:titulo 'dictadura dictador dictatorship')}"
+                    + " UNION {(?x ?score1) text:query (g:titulo 'Franco franquismo represión')}"
+                    + " UNION {(?x ?score2) text:query (g:titulo 'caciquismo')}"
+                    + " UNION {(?x ?score3) text:query (g:descripcion 'dictadura dictatorship')}"
+                    + " UNION {(?x ?score4) text:query (g:descripcion 'caciquismo')}"
+                + "}"
+                +  "OPTIONAL {"
+                    +  "{(?y ?score13) text:query (skos:prefLabel 'caciquismo' )} "
+                    +  " UNION {(?y ?score5) text:query (skos:prefLabel 'represion política' )} "
+                    +  " UNION {(?y ?score6) text:query (skos:prefLabel 'dictadura' )} "
+                    +  " UNION {(?y ?score7) text:query (skos:prefLabel 'españa' )} "
+                    +  " UNION {(?x ?score8) text:query (g:titulo 'siglo XX')} "
+                    +  " UNION {(?x ?score10) text:query (g:descripcion 'Huesca')} "
+                    +  " UNION {(?x ?score11) text:query (g:descripcion 'Primo de Rivera')} "
+                    +  " UNION {(?x ?score12) text:query (g:tema 'huesca')} "
+                + "}"
+                + "bind (coalesce(?score0,5) + "
+                + "coalesce(?score1,10)+ "
+                + "coalesce(?score2,10)+ "
+                + "coalesce(?score3,15)+ "
+                + "coalesce(?score4,7)+ "
+                + "coalesce(?score5,15)+ "
+                + "coalesce(?score6,15)+ "
+                + "coalesce(?score7,0)+ "
+                + "coalesce(?score8,10)+ "
+                + "coalesce(?score10,0)+ "
+                + "coalesce(?score11,0)+ "
+                + "coalesce(?score12,0)+ "
+                + "coalesce(?score13,15) "
+
+                + "as ?scoretot) "
                 + "} ORDER BY DESC(?scoretot)";
 
-       // q = QUERY_105;
-
         Query query = QueryFactory.create(q) ;
+        ds.begin(ReadWrite.READ);
         try (QueryExecution qexec = QueryExecutionFactory.create(query, ds)) {
             ResultSet results = qexec.execSelect() ;
             PrintWriter out = new PrintWriter(new FileOutputStream(output));
@@ -101,12 +128,12 @@ public class SemanticSearcher {
                 QuerySolution soln = results.nextSolution() ;
                 System.out.println(soln);
                 Resource doc = soln.getResource("x");
-                System.out.println(doc.getURI().replace("http://www.grupo202.com/model/", "105-5\t"));
-                out.println(doc.getURI().replace("http://www.grupo202.com/model/", "105-5\t"));
+                System.out.println(doc.getURI().replace("http://www.grupo202.com/model#", "105-5\t"));
+                out.println(doc.getURI().replace("http://www.grupo202.com/model#", "105-5\t"));
             }
             out.close();
         }
-
+        ds.end();
 
 
 
@@ -118,10 +145,17 @@ public class SemanticSearcher {
 
     private Dataset indexFiles() throws IOException {
         EntityDefinition entDef = new EntityDefinition("uri", "tema",
-                ResourceFactory.createProperty("http://www.grupo202.com/model/","tema"));
+                ResourceFactory.createProperty("http://www.grupo202.com/model#","tema"));
+        entDef.set("descripcion", ResourceFactory.createProperty("http://www.grupo202.com/model#","descripcion").asNode());
+        entDef.set("prefLabel", ResourceFactory.createProperty("http://www.w3.org/2004/02/skos/core#","prefLabel").asNode());
+        entDef.set("documento", ResourceFactory.createProperty("http://www.grupo202.com/model#","documento").asNode());
+        entDef.set("titulo", ResourceFactory.createProperty("http://www.grupo202.com/model#","titulo").asNode());
+        entDef.set("tutor", ResourceFactory.createProperty("http://www.grupo202.com/model#","tutor").asNode());
+        entDef.set("autor", ResourceFactory.createProperty("http://www.grupo202.com/model#","autor").asNode());
+        entDef.set("publicador", ResourceFactory.createProperty("http://www.grupo202.com/model#","publicador").asNode());
+        entDef.set("fecha", ResourceFactory.createProperty("http://www.grupo202.com/model#","fecha").asNode());
+        entDef.set("idioma", ResourceFactory.createProperty("http://www.grupo202.com/model#","idioma").asNode());
 
-        entDef.set("titulo", ResourceFactory.createProperty("http://www.grupo202.com/model/","titulo").asNode());
-        entDef.set("descripcion", ResourceFactory.createProperty("http://www.grupo202.com/model/","descripcion").asNode());
         TextIndexConfig config = new TextIndexConfig(entDef);
         config.setAnalyzer(new SpanishAnalyzer());
         config.setQueryAnalyzer(new SpanishAnalyzer());

@@ -10,7 +10,10 @@
 dct:subject a owl:ObjectProperty ;
      owl:propertyChainAxiom (dct:subject skos:broader) .
 
-#modelo de skos
+
+:hasGrandparent  owl:propertyChainAxiom  ( :hasParent  :hasParent ) .
+
+#modelo de skosz
 
 
 skos:narrowerTransitive

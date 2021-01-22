@@ -224,7 +224,7 @@ public class Document {
                 RDFNode z = soln.get("parentLabel") ;
                 System.out.println("INSERTANDO "+ soln);
 
-                Resource r = model.createResource(/*x.getURI().replace("#","/"), */SKOS.Concept);
+                Resource r = model.createResource(/*x.getURI().replace("#","/"), */ SKOS.Concept);
                 r.addProperty(SKOS.prefLabel, z.toString());
                 document.addProperty(model.getProperty(NS + SUBJECT_ID), r);
 

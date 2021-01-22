@@ -20,7 +20,7 @@ A_CreacionRDF.java
  A_CreacionRDF
 G_InferenciaOWL2.java
  G_InferenciaOWL2
-com/grupo202/generator/Document.java
- com.grupo202.generator.Document
 com/grupo202/generator/SemanticGenerator.java
  com.grupo202.generator.SemanticGenerator
+com/grupo202/generator/Document.java
+ com.grupo202.generator.Document
