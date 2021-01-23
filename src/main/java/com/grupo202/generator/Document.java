@@ -3,6 +3,7 @@ package com.grupo202.generator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.OWL;
@@ -127,7 +128,9 @@ public class Document {
         document.addProperty(RDF.type, tipo);
 
         addProperty(model, NS, document, this.TITLE_ID, this.title);
-        addProperty(model, NS, document, this.PUBLISHER_ID, this.publisher);
+
+        addComplexProperty(model, NS, document, this.PUBLISHER_ID, this.publisher, NS + "Organizacion", model.getProperty(NS + "Nombre"));
+
         if(this.date != null && !this.date.equals(""))
             document.addProperty(model.getProperty(NS + DATE_ID), model.createTypedLiteral(this.date, "xsd:gYear"));
 
@@ -139,17 +142,15 @@ public class Document {
 
         for(String s : subject) {
             if(!s.equals("")) {
-                Resource r = model.createResource(SKOS.Concept);
-                r.addProperty(SKOS.prefLabel, s);
-                document.addProperty(model.getProperty(NS + SUBJECT_ID), r);
+                addComplexProperty(model, NS, document, this.SUBJECT_ID, s.toLowerCase(Locale.ROOT), SKOS.Concept.toString(), SKOS.prefLabel);
                 insertSubject(document, NS, model, tesaurus, s);
             }
         }
 
         for(String a : author)
-            addPersonProperty(model, NS, document, this.AUTHOR_ID, a);
+            addComplexProperty(model, NS, document, this.AUTHOR_ID, a, NS + "Persona", model.getProperty(NS + "Nombre"));
         for(String c : contributor)
-            addPersonProperty(model, NS, document, this.CONTRIBUTOR_ID, c);
+            addComplexProperty(model, NS, document, this.CONTRIBUTOR_ID, c, NS + "Persona", model.getProperty(NS + "Nombre"));
     }
 
     private String normalize(String text) {
@@ -168,10 +169,9 @@ public class Document {
             if( !StringUtils.isNumeric(text.charAt(i)+"") && text.charAt(i) != '-' &&
                     (ascii < 97 || ascii > 122)){
                 text = text.replace(text.charAt(i)+"", "");
-         //       System.out.println("++++++++++++++++++" + text);
             }
         }
-       // System.out.println("-------------------- " + text);
+
         return text; /*.trim()
                 .replace(" ","-")
                 .replace(",", "")
@@ -224,26 +224,33 @@ public class Document {
                 RDFNode z = soln.get("parentLabel") ;
                 System.out.println("INSERTANDO "+ soln);
 
-                Resource r = model.createResource(/*x.getURI().replace("#","/"), */ SKOS.Concept);
-                r.addProperty(SKOS.prefLabel, z.toString());
-                document.addProperty(model.getProperty(NS + SUBJECT_ID), r);
+                Resource newResource = model.createResource(SKOS.Concept);
+                Resource resourceToInsert = model.createResource(NS + normalize(x.getURI()));
+                resourceToInsert.addProperty(RDF.type, newResource);
 
-
-                /*Resource r = model.createResource("http://www.grupo202.com/skos/subjects/" + normalize(s), SKOS.Concept);
-                r.addProperty(SKOS.prefLabel, s);
-                document.addProperty(model.getProperty(NS + SUBJECT_ID), r);*/
+                resourceToInsert.addProperty(SKOS.prefLabel, model.createLiteral(z.toString().toLowerCase(Locale.ROOT)));
+                document.addProperty(model.getProperty(NS + SUBJECT_ID), resourceToInsert);
 
 
             }
         } finally { qexec.close() ; }
     }
 
-    private void addPersonProperty(Model model, String NS, Resource documento, String tag, String content) {
+    private void addComplexProperty(Model model, String NS, Resource document, String tag, String content, String resourceClass, Property property) {
+        Resource newResource = model.createResource(resourceClass);
+        Resource resourceToInsert = model.createResource(NS + normalize(content));
+        resourceToInsert.addProperty(RDF.type, newResource);
+
+        resourceToInsert.addProperty(property, model.createLiteral(content));
+        document.addProperty(model.getProperty(NS + tag), resourceToInsert);
+    }
+    private void addPersonProperty(Model model, String NS, Resource document, String tag, String content) {
         if(content != null && !content.equals("")) {
             Resource r = model.createResource("http://www.grupo202.com/model#Persona");
             Resource person = model.createResource(NS + content.trim().replace(" ","-").replace(",", ""));
             person.addProperty(RDF.type, r);
-            documento.addProperty(model.getProperty(NS + tag), person);
+            person.addProperty(model.getProperty(NS + "Nombre"), model.createLiteral(content));
+            document.addProperty(model.getProperty(NS + tag), person);
         }
     }
 

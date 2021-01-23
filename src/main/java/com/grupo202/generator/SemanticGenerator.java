@@ -90,8 +90,8 @@ public class SemanticGenerator {
         for (String pathname : pathnames) {
             Document document = new Document(docs + "/" + pathname);
             document.insertInModel(model, tesaurus, NS);
-           /* cont++;
-            if(cont > 10) break;*/
+            cont++;
+            //if(cont > 100) break;
         }
 
     }

@@ -85,16 +85,27 @@
         <rdfs:comment>Persona que realiza un documento</rdfs:comment>
         <rdfs:label xml:lang="es">Autor</rdfs:label>
     </ObjectProperty>
-    
 
+     <!-- http://www.grupo202.com/model#Tutor -->
+
+    <ObjectProperty rdf:about="http://www.grupo202.com/model#Tutor">
+        <rdfs:domain rdf:resource="http://www.grupo202.com/model#Documento"/>
+        <rdfs:range rdf:resource="http://www.grupo202.com/model#Persona"/>
+        <rdfs:comment>Persona que contribuye a la creación de un documento</rdfs:comment>
+        <rdfs:label xml:lang="es">Tutor</rdfs:label>
+    </ObjectProperty>
+
+    <ObjectProperty rdf:about="http://www.grupo202.com/model#Nombre">
+        <rdfs:comment>Nombre propio</rdfs:comment>
+        <rdfs:label xml:lang="es">Nombre</rdfs:label>
+    </ObjectProperty>
 
     <!-- http://www.grupo202.com/model#Publicador -->
 
     <ObjectProperty rdf:about="http://www.grupo202.com/model#Publicador">
         <rdfs:domain rdf:resource="http://www.grupo202.com/model#Documento"/>
         <rdfs:range rdf:resource="http://www.grupo202.com/model#Organizacion"/>
-        <rdfs:comment>Entidad que publica documentos académicos. 
-      P. ej: Universidad de Zaragoza</rdfs:comment>
+        <rdfs:comment>Entidad que publica documentos académicos. P. ej: Universidad de Zaragoza</rdfs:comment>
         <rdfs:label xml:lang="es">Publicador</rdfs:label>
     </ObjectProperty>
     
@@ -103,14 +114,7 @@
     
 
 
-    <!-- http://www.grupo202.com/model#Tutor -->
 
-    <ObjectProperty rdf:about="http://www.grupo202.com/model#Tutor">
-        <rdfs:domain rdf:resource="http://www.grupo202.com/model#Documento"/>
-        <rdfs:range rdf:resource="http://www.grupo202.com/model#Persona"/>
-        <rdfs:comment>Persona que contribuye a la creación de un documento</rdfs:comment>
-        <rdfs:label xml:lang="es">Tutor</rdfs:label>
-    </ObjectProperty>
     
 
 

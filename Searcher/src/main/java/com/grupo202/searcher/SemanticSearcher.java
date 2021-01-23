@@ -16,6 +16,8 @@ import org.apache.lucene.store.MMapDirectory;
 
 import java.io.*;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SemanticSearcher {
 
@@ -42,10 +44,6 @@ public class SemanticSearcher {
             System.exit(1);
         }
 
-        //definimos la configuración del repositorio indexado
-
-
-
         Dataset ds = indexFiles();
 
         // cargamos el fichero deseado y lo almacenamos en el repositorio indexado
@@ -54,95 +52,40 @@ public class SemanticSearcher {
         ds.commit();
         ds.end();
 
-        String q = " PREFIX skos:<http://www.w3.org/2004/02/skos/core#>" +
-                    "PREFIX g: <http://www.grupo202.com/model#> "
-                  + "PREFIX text: <http://jena.apache.org/text#> "
-                  + "SELECT DISTINCT ?x WHERE { "
-                      + "?x g:tema ?y ."
-                      +  " {"
-                           // +  "{(?y ?score0) text:query (skos:prefLabel 'caciquismo' )} "
-                       //     +  "  {(?y ?score1) text:query (skos:prefLabel 'represion política' )} "
-                        //    +  " UNION {(?y ?score2) text:query (skos:prefLabel 'dictadura' )} "
-                         //   +  "  UNION{(?y ?score3) text:query (skos:prefLabel 'españa' )} "
-                      +  " } "
-                      + "UNION { "
-                         // + "{(?x ?score4) text:query (g:titulo 'siglo XX')} "
-                          + "{(?x ?score5) text:query (g:titulo 'dictadura represión política')} "
-                          + "UNION {(?x ?score6) text:query (g:descripcion 'caciquismo dictadura represión política huesca españa siglo XX')} "
-                         // + "UNION {(?x ?score7) text:query (g:descripcion 'huesca españa')} "
-                        //  + "UNION {(?x ?score8) text:query (g:tema 'huesca')} "
-                      + "}"
-                      + "bind (coalesce(?score6,10) +coalesce(?score5,10) +  " +
-                        "coalesce(?score2,10)+ coalesce(?score1,5) " +
-                   //     "coalesce(?score4,6)+ coalesce(?score5,15) +" +
-                     //   "coalesce(?score6,10)+ coalesce(?score7,6) + " +
-                    //    "coalesce(?score8,10)" +
-                "as ?scoretot) "
-                  + "} ORDER BY DESC(?scoretot)";
 
-        q = " PREFIX skos:<http://www.w3.org/2004/02/skos/core#>" +
-                "PREFIX g: <http://www.grupo202.com/model#> "
-                + "PREFIX text: <http://jena.apache.org/text#> "
-                + "SELECT DISTINCT ?x WHERE { "
-                + "?x g:tema ?y ."
-                + "{"
-                    + "{(?x ?score0) text:query (g:titulo 'dictadura dictador dictatorship')}"
-                    + " UNION {(?x ?score1) text:query (g:titulo 'Franco franquismo represión')}"
-                    + " UNION {(?x ?score2) text:query (g:titulo 'caciquismo')}"
-                    + " UNION {(?x ?score3) text:query (g:descripcion 'dictadura dictatorship')}"
-                    + " UNION {(?x ?score4) text:query (g:descripcion 'caciquismo')}"
-                + "}"
-                +  "OPTIONAL {"
-                    +  "{(?y ?score13) text:query (skos:prefLabel 'caciquismo' )} "
-                    +  " UNION {(?y ?score5) text:query (skos:prefLabel 'represion política' )} "
-                    +  " UNION {(?y ?score6) text:query (skos:prefLabel 'dictadura' )} "
-                    +  " UNION {(?y ?score7) text:query (skos:prefLabel 'españa' )} "
-                    +  " UNION {(?x ?score8) text:query (g:titulo 'siglo XX')} "
-                    +  " UNION {(?x ?score10) text:query (g:descripcion 'Huesca')} "
-                    +  " UNION {(?x ?score11) text:query (g:descripcion 'Primo de Rivera')} "
-                    +  " UNION {(?x ?score12) text:query (g:tema 'huesca')} "
-                + "}"
-                + "bind (coalesce(?score0,5) + "
-                + "coalesce(?score1,10)+ "
-                + "coalesce(?score2,10)+ "
-                + "coalesce(?score3,15)+ "
-                + "coalesce(?score4,7)+ "
-                + "coalesce(?score5,15)+ "
-                + "coalesce(?score6,15)+ "
-                + "coalesce(?score7,0)+ "
-                + "coalesce(?score8,10)+ "
-                + "coalesce(?score10,0)+ "
-                + "coalesce(?score11,0)+ "
-                + "coalesce(?score12,0)+ "
-                + "coalesce(?score13,15) "
+        BufferedReader in = new BufferedReader(new FileReader(infoNeeds));
+        String line;
+        PrintWriter out = new PrintWriter(new FileOutputStream(output));
 
-                + "as ?scoretot) "
-                + "} ORDER BY DESC(?scoretot)";
-
-        Query query = QueryFactory.create(q) ;
-        ds.begin(ReadWrite.READ);
-        try (QueryExecution qexec = QueryExecutionFactory.create(query, ds)) {
-            ResultSet results = qexec.execSelect() ;
-            PrintWriter out = new PrintWriter(new FileOutputStream(output));
-            for ( ; results.hasNext() ; ) {
-                QuerySolution soln = results.nextSolution() ;
-                System.out.println(soln);
-                Resource doc = soln.getResource("x");
-                System.out.println(doc.getURI().replace("http://www.grupo202.com/model#", "105-5\t"));
-                out.println(doc.getURI().replace("http://www.grupo202.com/model#", "105-5\t"));
-            }
-            out.close();
+        while((line = in.readLine())!=null) {
+            String[] infoNeed = line.split("\t");
+            List<String> results = executeQuery(ds, infoNeed[1], infoNeed[0]);
+            writeResults(out, results);
         }
-        ds.end();
-
-
-
-
-
-
+        out.close();
 
     }
 
+    private List<String> executeQuery(Dataset ds, String q, String infoNeed){
+        List<String> retval = new ArrayList<>();
+        Query query = QueryFactory.create(q);
+        ds.begin(ReadWrite.READ);
+        try (QueryExecution qexec = QueryExecutionFactory.create(query, ds)) {
+            ResultSet results = qexec.execSelect();
+            for (; results.hasNext(); ) {
+                QuerySolution soln = results.nextSolution();
+                Resource doc = soln.getResource("x");
+                retval.add(doc.getURI().replace("http://www.grupo202.com/model#", infoNeed + "\t"));
+            }
+        }
+        ds.end();
+        return retval;
+    }
+    private void writeResults(PrintWriter out, List<String> results){
+        for ( String result : results) {
+            out.println(result);
+        }
+    }
     private Dataset indexFiles() throws IOException {
         EntityDefinition entDef = new EntityDefinition("uri", "tema",
                 ResourceFactory.createProperty("http://www.grupo202.com/model#","tema"));
