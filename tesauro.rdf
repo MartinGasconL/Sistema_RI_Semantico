@@ -156,6 +156,14 @@
         <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#biología-evolutiva"/>
         <skos:prefLabel>filogenética</skos:prefLabel>
     </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#árbol-filogenético">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#filogenética"/>
+        <skos:prefLabel>árbol filogenético</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#análisis-filogenético">
+        <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#filogenética"/>
+        <skos:prefLabel>análisis filogenético</skos:prefLabel>
+    </skos:Concept>
     <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#phylogenetics">
         <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#biología-evolutiva"/>
         <skos:prefLabel>phylogenetics</skos:prefLabel>

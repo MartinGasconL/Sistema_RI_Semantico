@@ -46,11 +46,11 @@ public class SemanticGenerator {
         loadResources(modelCollection, docs, skosModel);
         System.out.println("dos");
 
-        //Model model = ModelFactory.createUnion(modelCollection, skosModel);
+
         System.out.println("tres");
 
         modelCollection.write(new FileOutputStream(rdf), "RDF/XML-ABBREV");
-
+        Model model = ModelFactory.createUnion(modelCollection, skosModel);
         /*InfModel inf = ModelFactory.createInfModel(PelletReasonerFactory.theInstance().create(), model);
         System.out.println("cinco");
 

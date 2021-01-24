@@ -57,6 +57,13 @@ public class SemanticSearcher {
         String line;
         PrintWriter out = new PrintWriter(new FileOutputStream(output));
 
+        //Estoy interesado en trabajos académicos sobre Bioinformática (también conocida como Biología Computacional,
+        // Bioinformatics o Computational Biology) o Filogenética (Phylogenetics), publicados entre 2010 y 2018
+
+
+        /*List<String> results = executeQuery(ds, q, "105-5");
+        writeResults(out, results);*/
+
         while((line = in.readLine())!=null) {
             String[] infoNeed = line.split("\t");
             List<String> results = executeQuery(ds, infoNeed[1], infoNeed[0]);
@@ -74,6 +81,7 @@ public class SemanticSearcher {
             ResultSet results = qexec.execSelect();
             for (; results.hasNext(); ) {
                 QuerySolution soln = results.nextSolution();
+                System.out.println(soln);
                 Resource doc = soln.getResource("x");
                 retval.add(doc.getURI().replace("http://www.grupo202.com/model#", infoNeed + "\t"));
             }
@@ -113,7 +121,7 @@ public class SemanticSearcher {
 
     //java SemanticSearcher -rdf <rdfPath> -infoNeeds <infoNeedsFile> -output <resultsFile>
     public static void main (String[] args) throws IOException {
-       new SemanticSearcher(args);
+        new SemanticSearcher(args);
 
     }
 }

@@ -35,35 +35,6 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    <!--<rdf:Description rdf:about="http://www.grupo202.com/model#Tema">
-        <owl:propertyChainAxiom rdf:parseType="Collection">
-            <owl:ObjectProperty rdf:about="skos:narrower"/>
-            <owl:ObjectProperty rdf:about="http://www.grupo202.com/model#Tema"/>
-        </owl:propertyChainAxiom>
-    </rdf:Description>-->
-
-    <!-- Lo de la práctica
-    <owl:ObjectProperty rdf:about="http://www.grupo202.com/model#Tema">
-        <owl:propertyChainAxiom>
-            <rdf:Description>
-                <rdf:first rdf:resource="http://www.grupo202.com/model#Tema"/>
-                <rdf:rest>
-                    <rdf:Description>
-                        <rdf:first rdf:resource="http://www.w3.org/2004/02/skos/core#broader"/>
-                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                    </rdf:Description>
-            </rdf:rest>
-          </rdf:Description>
-        </owl:propertyChainAxiom>
-    </owl:ObjectProperty>
-    :
-    <rdf:Description rdf:about="hasGrandparent">
-           <owl:propertyChainAxiom rdf:parseType="Collection">
-                   <owl:ObjectProperty rdf:about="hasParent"/>
-                   <owl:ObjectProperty rdf:about="hasParent"/>
-           </owl:propertyChainAxiom>
-     </rdf:Description>-->
-
     <!-- http://www.grupo202.com/model#Tema -->
 
     <ObjectProperty rdf:about="http://www.grupo202.com/model#Tema">
@@ -110,14 +81,6 @@
     </ObjectProperty>
     
 
-
-    
-
-
-
-    
-
-
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -125,8 +88,6 @@
     //
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
-
-    
 
 
     <!-- http://www.grupo202.com/model#Descripcion -->
@@ -198,7 +159,7 @@
     <!-- http://www.grupo202.com/model#Documento -->
 
     <Class rdf:about="http://www.grupo202.com/model#Documento">
-        <!--<rdfs:subClassOf>
+        <rdfs:subClassOf>
             <Restriction>
                 <onProperty rdf:resource="http://www.grupo202.com/model#Autor"/>
                 <minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</minCardinality>
@@ -233,7 +194,7 @@
                 <onProperty rdf:resource="http://www.grupo202.com/model#Titulo"/>
                 <minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</minCardinality>
             </Restriction>
-        </rdfs:subClassOf>-->
+        </rdfs:subClassOf>
         <rdfs:comment>Collection of Principles.</rdfs:comment>
         <rdfs:label xml:lang="es">Documento</rdfs:label>
     </Class>
