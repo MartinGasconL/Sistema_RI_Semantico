@@ -6,6 +6,18 @@
     <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#ingeniería-informática"/>
     <skos:prefLabel>computación</skos:prefLabel>
   </skos:Concept>
+  <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#ingeniero-en-informática">
+      <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#ingeniería-informática"/>
+      <skos:prefLabel>ingeniero en informática</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#ingeniería-de-software">
+      <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#ingeniería-informática"/>
+      <skos:prefLabel>ingeniería de software</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#graduado-en-ingeniería-informática">
+      <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#ingeniería-informática"/>
+      <skos:prefLabel>graduado en ingeniería informática</skos:prefLabel>
+    </skos:Concept>
   <skos:Concept rdf:about="http://www.grupo202.com/skos/subjects#deep-learning">
     <skos:broader rdf:resource="http://www.grupo202.com/skos/subjects#computacion"/>
     <skos:prefLabel>deep learning</skos:prefLabel>
