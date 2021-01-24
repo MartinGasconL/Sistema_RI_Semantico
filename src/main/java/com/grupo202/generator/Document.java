@@ -6,11 +6,9 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.OWL;
+
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.SKOS;
-import org.apache.jena.vocabulary.VCARD;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -58,6 +56,13 @@ public class Document {
     private List<String> contributor;
     private String type;
 
+    /**
+     * This class specifies the fields of a document and realizes the process of load in a collection model.
+     * @param pathname path of the document location.
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
     public Document(String pathname) throws ParserConfigurationException, IOException, SAXException {
         FileInputStream fis;
         String[] path = pathname.split("/");
@@ -88,12 +93,23 @@ public class Document {
 
     }
 
+    /**
+     * Reads a field from a XML formatted document.
+     * @param dc XML Document
+     * @param tag Name of the field to get the content.
+     * @return content of the node which contains the field.
+     */
     private String loadUniqueNode(org.w3c.dom.Document dc, String tag) {
         NodeList nl = dc.getElementsByTagName(tag);
         if(nl.item(0) == null)  return null;
         return nl.item(0).getTextContent();
     }
-
+    /**
+     * Reads a field from a XML formatted document which contains multiple nodes.
+     * @param dc XML Document
+     * @param tag Name of the field to get the content.
+     * @return content of the nodes which contains the field.
+     */
     private List<String> loadMultipleNode(org.w3c.dom.Document dc, String tag) {
         NodeList nl = dc.getElementsByTagName(tag);
         List<String> retval = new ArrayList<>();
@@ -122,7 +138,13 @@ public class Document {
                 '}';
     }
 
-    public void insertInModel(Model model, Model tesaurus, String NS) {
+    /**
+     * Save the document in a Jena model.
+     * @param model Jena model with a collection.
+     * @param thesaurus Thesaurus with concepts
+     * @param NS Base URI of the model.
+     */
+    public void insertInModel(Model model, Model thesaurus, String NS) {
         Resource document = model.createResource(NS+this.id);
         Resource tipo = model.createResource("http://www.grupo202.com/model#" + this.type.toUpperCase().trim());
         document.addProperty(RDF.type, tipo);
@@ -143,7 +165,7 @@ public class Document {
         for(String s : subject) {
             if(!s.equals("")) {
                 addComplexProperty(model, NS, document, this.SUBJECT_ID, s.toLowerCase(Locale.ROOT), SKOS.Concept.toString(), SKOS.prefLabel);
-                insertSubject(document, NS, model, tesaurus, s);
+                insertSubject(document, NS, model, thesaurus, s);
             }
         }
 
@@ -153,6 +175,11 @@ public class Document {
             addComplexProperty(model, NS, document, this.CONTRIBUTOR_ID, c, NS + "Persona", model.getProperty(NS + "Nombre"));
     }
 
+    /**
+     * Clean a string with special characters and spaces to be able to be part of an URI
+     * @param text String to clean.
+     * @return Cleaned String.
+     */
     private String normalize(String text) {
         text = text.toLowerCase(Locale.ROOT).trim();
         text = text.replace(" ", "-")
@@ -165,41 +192,25 @@ public class Document {
                 .replace(",", "")
                 .replace(".", "");
         for(int i = 0 ; i < text.length(); i++){
-            int ascii = (int) text.charAt(i);
+            int ascii = text.charAt(i);
             if( !StringUtils.isNumeric(text.charAt(i)+"") && text.charAt(i) != '-' &&
                     (ascii < 97 || ascii > 122)){
                 text = text.replace(text.charAt(i)+"", "");
             }
         }
 
-        return text; /*.trim()
-                .replace(" ","-")
-                .replace(",", "")
-                .replace(".", "")
-                .replace("(", "")
-                .replace(")", "")
-                .replace("/", "")
-                .replace("º", "")
-                .replace("™", "")
-                .replace("'", "")
-                .replace("´", "")
-                .replace("\"", "")
-                .replace("”", "")
-                .replace("#", "")
-                .replace("“", "")
-                .replace("–", "")
-                .replace("+", "")
-                .replace("%", "")
-                .replace("á", "a")
-                .replace("é", "e")
-                .replace("í", "i")
-                .replace("ó", "o")
-                .replace("ú", "u")
-                ;*/
+        return text;
     }
 
-    private void insertSubject(Resource document, String NS, Model model, Model tesaurus, String s) {
-       // System.out.println(s);
+    /**
+     * Inserts a subject field in the collection
+     * @param document Resource node into insert.
+     * @param NS Base URI of the model.
+     * @param model Model wich contains the collection.
+     * @param thesaurus Thesaurus with concepts.
+     * @param s Content to insert.
+     */
+    private void insertSubject(Resource document, String NS, Model model, Model thesaurus, String s) {
         s= s.replace("'", "");
         s= s.replace("\n", "").toLowerCase(Locale.ROOT);
         String queryString =
@@ -213,16 +224,12 @@ public class Document {
 
         Query q1 = QueryFactory.create(queryString) ;
 
-        QueryExecution qexec = QueryExecutionFactory.create(q1, tesaurus) ;
-
-        try {
-            ResultSet results = qexec.execSelect() ;
-            for ( ; results.hasNext() ; )
-            {
-                QuerySolution soln = results.nextSolution() ;
+        try (QueryExecution qexec = QueryExecutionFactory.create(q1, thesaurus)) {
+            ResultSet results = qexec.execSelect();
+            while (results.hasNext()) {
+                QuerySolution soln = results.nextSolution();
                 Resource x = soln.getResource("parentConcept");
-                RDFNode z = soln.get("parentLabel") ;
-                System.out.println("INSERTANDO "+ soln);
+                RDFNode z = soln.get("parentLabel");
 
                 Resource newResource = model.createResource(SKOS.Concept);
                 Resource resourceToInsert = model.createResource(NS + normalize(x.getURI()));
@@ -233,9 +240,19 @@ public class Document {
 
 
             }
-        } finally { qexec.close() ; }
+        }
     }
 
+    /**
+     * Adds a property with a class predicate node (Not literal)
+     * @param document Resource node into insert.
+     * @param NS Base URI of the model.
+     * @param model Model wich contains the collection.
+     * @param tag Field to insert
+     * @param content Content to insert.
+     * @param resourceClass Predicate node class.
+     * @param property Property to insert.
+     */
     private void addComplexProperty(Model model, String NS, Resource document, String tag, String content, String resourceClass, Property property) {
         Resource newResource = model.createResource(resourceClass);
         Resource resourceToInsert = model.createResource(NS + normalize(content));
@@ -244,18 +261,18 @@ public class Document {
         resourceToInsert.addProperty(property, model.createLiteral(content));
         document.addProperty(model.getProperty(NS + tag), resourceToInsert);
     }
-    private void addPersonProperty(Model model, String NS, Resource document, String tag, String content) {
-        if(content != null && !content.equals("")) {
-            Resource r = model.createResource("http://www.grupo202.com/model#Persona");
-            Resource person = model.createResource(NS + content.trim().replace(" ","-").replace(",", ""));
-            person.addProperty(RDF.type, r);
-            person.addProperty(model.getProperty(NS + "Nombre"), model.createLiteral(content));
-            document.addProperty(model.getProperty(NS + tag), person);
-        }
-    }
 
-    private void addProperty(Model model, String NS, Resource documento, String tag, String content) {
+    /**
+     *
+     * Adds a property with a literal predicate
+     * @param document Resource node into insert.
+     * @param NS Base URI of the model.
+     * @param model Model which contains the collection.
+     * @param tag Field to insert
+     * @param content Content to insert.
+     */
+    private void addProperty(Model model, String NS, Resource document, String tag, String content) {
         if(content != null && !content.equals(""))
-            documento.addProperty(model.getProperty(NS + tag), model.createTypedLiteral(content, "xsd:anyUri"));
+            document.addProperty(model.getProperty(NS + tag), model.createTypedLiteral(content, "xsd:anyUri"));
     }
 }

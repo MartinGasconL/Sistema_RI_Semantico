@@ -10,6 +10,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 
+/**
+ * This class creates a collection.
+ */
 public class SemanticGenerator {
 
     private final String NS = "http://www.grupo202.com/model#";
@@ -39,26 +42,25 @@ public class SemanticGenerator {
             System.err.println("Error al suministrar los argumentos ");
             System.exit(1);
         }
-        System.out.println("uno");
         Model modelCollection =  FileManager.get().loadModel(owl,"RDF/XML-ABBREV");
         Model skosModel = FileManager.get().loadModel(skos,"RDF/XML-ABBREV");
 
         loadResources(modelCollection, docs, skosModel);
-        System.out.println("dos");
-
-
-        System.out.println("tres");
 
         modelCollection.write(new FileOutputStream(rdf), "RDF/XML-ABBREV");
+
+        /* ----- Uncomment this to do an automatic inference. -----
         Model model = ModelFactory.createUnion(modelCollection, skosModel);
-        /*InfModel inf = ModelFactory.createInfModel(PelletReasonerFactory.theInstance().create(), model);
+        InfModel inf = ModelFactory.createInfModel(PelletReasonerFactory.theInstance().create(), model);
         System.out.println("cinco");
 
         model = borrarRecursosOWL(inf);
-        //mostramos el fragmento deseado del modelo inferido
         System.out.println("------------------------------");
         //model.write(System.out,"RDF/XML-ABBREV");
-        System.out.println("------------------------------");*/
+        System.out.println("------------------------------");
+        model.write(new FileOutputStream(rdf), "RDF/XML-ABBREV");*/
+
+        //Comment this if you are doing an automatic inference.
         modelCollection.write(new FileOutputStream(rdf), "RDF/XML-ABBREV");
     }
 
@@ -82,16 +84,22 @@ public class SemanticGenerator {
         return model2;
     }
 
-    private void loadResources(Model model, String docs, Model tesaurus) throws ParserConfigurationException, IOException, SAXException {
+    /**
+     * Loads the content of a xml text collection.
+     * @param model Jena model into which insert.
+     * @param docs path of the collection directory.
+     * @param thesaurus
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
+    private void loadResources(Model model, String docs, Model thesaurus) throws ParserConfigurationException, IOException, SAXException {
         String[] pathnames;
         File f = new File(docs);
         pathnames = f.list();
-        int cont = 0;
         for (String pathname : pathnames) {
             Document document = new Document(docs + "/" + pathname);
-            document.insertInModel(model, tesaurus, NS);
-            cont++;
-            //if(cont > 100) break;
+            document.insertInModel(model, thesaurus, NS);
         }
 
     }
